@@ -883,12 +883,15 @@ HELP = ("🍿 <b>Я советую новинки кино под ваш вку�
         "• <code>/kino сериал про расследование</code>\n\n"
         "В личной переписке со мной можно без /kino — просто текстом.\n"
         "Отвечайте на карточки «👍» или «👎» — я запомню, что вам нравится.\n"
-        "<i>Отвечаю не сразу, а в течение 15–30 минут.</i>")
+        "<i>Отвечаю примерно через минуту.</i>")
 
 
 def answer_request(state, cfg, today, chat, reply_to, text):
     q, picks, note, has_taste = recommend(state, cfg, today, text)
     months = max(1, round(cfg["rec_days"] / 30))
+    if not picks and KP["off"]:
+        tg_send(f"⚠️ {esc(KP['off'])}. Попробуйте завтра.", chat=chat, reply_to=reply_to)
+        return
     if not picks:
         tg_send(f"😔 Не нашёл новинок ({esc(q['label'])}) за последние {months} мес. с высокими "
                 "оценками. Попробуйте другой жанр.", chat=chat, reply_to=reply_to)
@@ -1032,6 +1035,7 @@ def main():
     due = (today.weekday() == cfg["digest_weekday"] and now.hour >= cfg["digest_hour"]
            and state.get("last_digest") != today.isoformat())
     if due or FORCE_DIGEST:
+        KP["left"] = max(0, KP["left"] - 50)       # 50 запросов к Кинопоиску оставляем для советов
         run_digest(state, cfg, today)
         state["last_digest"] = today.isoformat()
     else:
