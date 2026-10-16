@@ -1391,7 +1391,17 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10893610/7eeeecb8-5fd6-4d1c-b44c-89092f71110e/600x900"
 }
 },
-"tg_offset": 278704748,
+"taste": {
+"movie:969681": {
+"g": "фантастика, боевик, приключения",
+"k": "фильм",
+"o": "Spider-Man: Brand New Day",
+"t": "Человек-паук: Новый день",
+"v": 1,
+"y": "2026"
+}
+},
+"tg_offset": 278704750,
 "usage": {
 "calls": 7,
 "cost": 0.0037089999999999996,
