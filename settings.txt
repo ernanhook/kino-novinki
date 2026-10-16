@@ -37,7 +37,7 @@ exclude_genres = реалити-шоу, ток-шоу, новости, мыль�
 max_cards = 20
 
 # Сколько запросов к Кинопоиску можно сделать за один запуск (бесплатно — 200 в сутки)
-kp_requests_per_run = 150
+kp_requests_per_run = 120
 
 # Строка диагностики в конце подборки: auto (если были ошибки), always, never
 show_diagnostics = auto
