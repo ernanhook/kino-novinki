@@ -2,8 +2,10 @@ name: Kino novinki digest
 
 on:
   schedule:
-    - cron: "*/15 * * * *"  # раз в 15 минут: ответы на запросы; подборку шлёт в день и час из settings.txt
+    - cron: "7 * * * *"     # раз в час (GitHub может запускать и реже): подборка в день и час из settings.txt
   workflow_dispatch:        # ручной запуск — сразу присылает подборку
+  repository_dispatch:      # «будильник» (relay/worker.js): запускает бота, как только ему написали
+    types: [poll]
 
 permissions:
   contents: write
