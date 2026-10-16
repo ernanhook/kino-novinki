@@ -438,7 +438,7 @@ def runtime_text(m):
     return (f"{h} ч {mm} мин" if mm else f"{h} ч") if h else (f"{mm} мин" if mm else "")
 
 
-def card(it, cfg, rec, why=""):
+def card(it, cfg, rec, why="", icon="💡"):
     title = rec.get("name") or it["title"]
     sub = []
     if it.get("orig") and it["orig"].lower() != title.lower():
@@ -473,7 +473,7 @@ def card(it, cfg, rec, why=""):
     if p.get("paid"):
         lines.append(f"💳 Купить или арендовать: {esc(', '.join(p['paid']))}")
     if why:
-        lines.append(f"\n💡 {esc(why)}")
+        lines.append(f"\n{icon} {esc(why)}")
     head = "\n".join(lines)
     plot = it.get("plot") or rec.get("desc") or ""
     room = 1000 - len(head) - 30                        # подпись к фото — до 1024 символов
@@ -530,6 +530,14 @@ def run_digest(state, cfg, today):
         items += tv_items(cfg, start, today)
     items = [it for it in items if it["key"] not in announced
              and not (set(it.get("genres", [])) & cfg["exclude"])]
+    # сериалы, которым вы поставили 👎, — их новые сезоны не присылаем
+    nope = disliked_shows(state)
+    skipped = [it for it in items if it["kind"] != "movie" and str(it["tmdb_id"]) in nope]
+    items = [it for it in items if it not in skipped]
+    for it in skipped:
+        announced[it["key"]] = today.isoformat()        # и не проверяем их снова
+    if skipped:
+        print("Пропущены (👎):", ", ".join(it["title"] for it in skipped))
     DIAG["candidates"] = len(items)
     print(f"Кандидатов: {len(items)}")
 
@@ -553,6 +561,9 @@ def run_digest(state, cfg, today):
     order = {"movie": 0, "tv": 1, "season": 2}
     picked.sort(key=lambda p: (order[p[0]["kind"]], -((p[1].get("imdb") or 0) + (p[1].get("kp") or 0))))
     n = {k: sum(1 for it, _ in picked if it["kind"] == k) for k in order}
+    # что должно понравиться именно вам — наверх, с пометкой ⭐
+    fav = taste_marks(picked, state, cfg)
+    picked.sort(key=lambda p: id(p[0]) not in fav)    # сортировка устойчивая: порядок внутри сохраняется
 
     cover = ["🍿 <b>КИНО-НОВИНКИ</b>",
              f"<i>вышло в цифре и на стримингах · IMDb и Кинопоиск от "
@@ -564,6 +575,8 @@ def run_digest(state, cfg, today):
             cover.append(f"📺 Новые сериалы — {n['tv']}")
         if n["season"]:
             cover.append(f"🆕 Новые сезоны — {n['season']}")
+        if fav:
+            cover.append(f"⭐ Под ваш вкус — {len(fav)}, они идут первыми")
     else:
         cover.append("На этой неделе новинок с такими оценками не появилось.")
     cover += ["", "<i>Данные: TMDB, JustWatch, Кинопоиск, IMDb</i>"]
@@ -574,7 +587,9 @@ def run_digest(state, cfg, today):
         if k >= cfg["max_cards"]:
             overflow.append((it, rec))
             continue
-        res = tg_send(card(it, cfg, rec), card_buttons(it, rec), poster_url(it, rec))
+        why = fav.get(id(it))
+        text = card(it, cfg, rec, why, "⭐") if why is not None else card(it, cfg, rec)
+        res = tg_send(text, card_buttons(it, rec), poster_url(it, rec))
         if res:
             announced[it["key"]] = today.isoformat()
             remember_card(state, res, it, rec)
@@ -594,6 +609,57 @@ def run_digest(state, cfg, today):
     state["ratings"] = {k: v for k, v in state.get("ratings", {}).items()
                         if v.get("checked", "") >= old}
     print(f"Отправлено: {len(picked)}. Запросов: TMDB {DIAG['tmdb']}, Кинопоиск {DIAG['kp']}")
+
+
+# ================= Вкус в подборке =================
+def disliked_shows(state):
+    """Номера сериалов (TMDB), которым поставили 👎 на любой сезон."""
+    out = set()
+    for k, r in state.get("taste", {}).items():
+        p = k.split(":")
+        if r.get("v", 0) < 0 and p[0] in ("tv", "season") and len(p) > 1:
+            out.add(p[1])
+    return out
+
+
+MARK_PROMPT = """Ты — киносоветчик. Вкус зрителя по его оценкам:
+Любимое: {love}
+Понравилось: {like}
+Не понравилось: {nope}
+
+Ниже новинки недели. Отметь только те, что ему особенно должны понравиться: похожи на любимое
+и понравившееся. Не больше {k} штук, лучше меньше. Если ничего особенно не подходит — ответь [].
+Ответь ТОЛЬКО JSON-массивом:
+[{{"n": номер, "why": "одно короткое предложение по-русски: почему именно ему; можно сравнить
+с конкретным фильмом или сериалом из его любимого"}}]
+
+НОВИНКИ:
+{items}"""
+
+
+def taste_marks(picked, state, cfg):
+    """{id(новинки): почему понравится} — для пометки ⭐ в подборке. Без вкуса или ИИ — {}."""
+    taste = load_taste(state)
+    if len(picked) < 2 or not (taste["love"] or taste["like"]):
+        return {}
+    lines = []
+    for i, (it, rec) in enumerate(picked, 1):
+        kind = {"movie": "фильм", "tv": "новый сериал", "season": f"{it.get('season')} сезон"}[it["kind"]]
+        lines.append(f"[{i}] {rec.get('name') or it['title']} / {it.get('orig')} ({it.get('year')}, {kind}) | "
+                     f"{', '.join(it.get('genres', []))} | {short_plot(it.get('plot') or rec.get('desc'), 200)}")
+    cut = lambda xs: "; ".join(xs[-40:]) or "—"
+    res = claude(MARK_PROMPT.format(love=cut(taste["love"]), like=cut(taste["like"]),
+                                    nope=cut(taste["nope"]), k=max(1, len(picked) // 3),
+                                    items="\n".join(lines)), state, cfg, max_tokens=800)
+    out = {}
+    for r in res:
+        try:
+            n = int(str(r.get("n")).strip("[] "))
+        except (TypeError, ValueError):
+            continue
+        if 1 <= n <= len(picked) and len(out) < max(1, len(picked) // 3):
+            out[id(picked[n - 1][0])] = "Под ваш вкус: " + str(r.get("why") or "").strip()
+    return out
 
 
 # ================= Вкус: опрос и оценки 👍 / 👎 =================
@@ -738,38 +804,64 @@ def parse_objects(text):
 
 
 # ================= Рекомендации по запросу =================
-# Жанры TMDB: (основа слова в запросе, название, жанры фильмов, жанры сериалов)
+# Словарь запросов. Основа слова → жанр TMDB. Жанры фильмов и сериалов у TMDB разные:
+# у сериалов нет «ужасов» и «фантастики» отдельно, поэтому там ближайшие жанры.
+# (ключ, название, регулярка, жанры фильмов, жанры сериалов)
 GENRES = [
-    (r"ужас|хорр?ор|страшн|ужастик", "ужасы", [27], [9648, 10765]),
-    (r"триллер|напряж|саспенс", "триллеры", [53], [9648, 80]),
-    (r"комед|смешн|посмеят|ржать|лёгк|легк", "комедии", [35], [35]),
-    (r"драм", "драмы", [18], [18]),
-    (r"фантаст|sci.?fi|космос", "фантастика", [878], [10765]),
-    (r"фэнтез|фентез|магия|волшеб", "фэнтези", [14], [10765]),
-    (r"боевик|экшн|экшен|action", "боевики", [28], [10759]),
-    (r"криминал|гангстер|мафи|ограблен", "криминал", [80], [80]),
-    (r"детектив|расследов|загадк", "детективы", [9648, 80], [9648, 80]),
-    (r"мелодрам|романт|любов|про отношен", "мелодрамы", [10749], [18]),
-    (r"мульт|анимац|аниме", "мультфильмы", [16], [16]),
-    (r"военн|войн", "военное", [10752], [10768]),
-    (r"историч|истори", "историческое", [36], [10768]),
-    (r"документ", "документальное", [99], [99]),
-    (r"приключен", "приключения", [12], [10759]),
-    (r"семейн|с детьми|для детей", "семейное", [10751], [10751]),
+    ("horror", "ужасы", r"ужас|хорр?ор|страшн|ужастик|жут[ьк]|пугающ|зомби|вампир|призрак|нечист|одержим", [27], [9648, 10765]),
+    ("thriller", "триллеры", r"триллер|напряж[её]н|саспенс|на грани|держит в напряж", [53], [9648, 80]),
+    ("comedy", "комедии", r"комеди|ком[её]ди|смешн|посмеят|поржать|ржач|угар|юмор|ромком|ситком", [35], [35]),
+    ("drama", "драмы", r"(?<!мело)драм(?!ед)", [18], [18]),
+    ("scifi", "фантастика", r"фантаст|научн\w*[- ]фант|sci[- ]?fi|космос|космич|пришельц|инопланет|"
+                            r"антиутоп|постапок|киберпанк|робот|путешеств\w* во времени|будущ", [878], [10765]),
+    ("fantasy", "фэнтези", r"ф[эе]нтез|магич|магия|волшеб|дракон|мечи и магия", [14], [10765]),
+    ("action", "боевики", r"боевик|экшн|экш[еэ]н|action|перестрелк|погон|\bдрак(?:а|и|у|ой|ами)?\b|мордобой|спецназ", [28], [10759]),
+    ("adventure", "приключения", r"приключен", [12], [10759]),
+    ("crime", "криминал", r"криминал|гангстер|мафи|бандит|ограблен|наркокартел|тюрьм", [80], [80]),
+    ("mystery", "детективы", r"детектив|расследов|убийств|маньяк|серийн\w* убийц|загадк|головоломк|нуар", [9648], [9648]),
+    ("romance", "мелодрамы", r"мелодрам|романтик|романтич|любов|ромком|про отношени|свидани", [10749], [18]),
+    ("animation", "мультфильмы", r"мульт|анимац|анимэ|аниме", [16], [16]),
+    ("war", "военное", r"военн|войн[аеуы]|про войну|фронт", [10752], [10768]),
+    ("history", "историческое", r"историческ|истори[яюи] реальн|реальн\w* истори|реальн\w* событ|биограф|байопик", [36], [10768]),
+    ("documentary", "документальное", r"документал|докумен?талк|докуфильм|докусериал", [99], [99]),
+    ("family", "семейное", r"семейн|с детьми|для детей|детск|с ребенком|с ребёнком", [10751], [10751]),
+    ("western", "вестерны", r"вестерн|ковбо|дикий запад", [37], [37]),
+    ("music", "музыкальное", r"мюзикл|музыкальн", [10402], []),
 ]
+GENRE = {g[0]: g for g in GENRES}
+
+COUNTRIES = [  # (регулярка, коды стран TMDB, как назвать)
+    (r"корейск|корея|дорам", "KR", "корейское"), (r"японск|япония|аниме|анимэ", "JP", "японское"),
+    (r"китайск", "CN", "китайское"), (r"русск|российск|отечествен", "RU", "российское"),
+    (r"испанск|испания", "ES", "испанское"), (r"французск|франция", "FR", "французское"),
+    (r"итальянск", "IT", "итальянское"), (r"немецк|германи", "DE", "немецкое"),
+    (r"турецк", "TR", "турецкое"), (r"индийск|болливуд", "IN", "индийское"),
+    (r"британск|английск", "GB", "британское"), (r"американск|голливуд", "US", "американское"),
+    (r"скандинав|шведск|норвежск|датск", "SE|NO|DK", "скандинавское"),
+    (r"латышск|латвийск", "LV", "латвийское"), (r"польск", "PL", "польское"),
+]
+SERVICES = [  # (регулярка, кусок названия сервиса в данных JustWatch, как назвать)
+    (r"netflix|нетфликс", "netflix", "Netflix"), (r"apple|эппл|эпл", "apple tv", "Apple TV"),
+    (r"\bhbo\b|\bmax\b|\bмакс\b|hbo max", "max", "Max"), (r"disney|дисней", "disney", "Disney+"),
+    (r"prime|amazon|амазон", "amazon", "Prime Video"), (r"skyshowtime|скайшоутайм", "skyshowtime", "SkyShowtime"),
+    (r"\bgo3\b|го3", "go3", "Go3"),
+]
+NEGATION = re.compile(r"(?:без|кроме|только не|не надо|не хочу|не)\s+([а-яёa-z-]+)", re.I)
 
 PARSE_PROMPT = """Зритель написал боту-киносоветчику: «{q}»
-Определи, что он хочет посмотреть. Жанры фильмов TMDB: 28 боевик, 12 приключения, 16 мультфильм,
-35 комедия, 80 криминал, 99 документальный, 18 драма, 10751 семейный, 14 фэнтези, 36 история,
-27 ужасы, 10402 музыка, 9648 детектив, 10749 мелодрама, 878 фантастика, 53 триллер, 10752 военный,
-37 вестерн. Жанры сериалов TMDB: 10759 боевик и приключения, 16 мультфильм, 35 комедия,
-80 криминал, 99 документальный, 18 драма, 10751 семейный, 9648 детектив, 10765 фантастика и
-фэнтези, 10768 война и политика, 37 вестерн.
+Бот советует только новинки. Определи, что зритель хочет посмотреть.
+Жанры фильмов TMDB: 28 боевик, 12 приключения, 16 мультфильм, 35 комедия, 80 криминал,
+99 документальный, 18 драма, 10751 семейный, 14 фэнтези, 36 история, 27 ужасы, 10402 музыка,
+9648 детектив, 10749 мелодрама, 878 фантастика, 53 триллер, 10752 военный, 37 вестерн.
+Жанры сериалов TMDB: 10759 боевик и приключения, 16 мультфильм, 35 комедия, 80 криминал,
+99 документальный, 18 драма, 10751 семейный, 9648 детектив, 10765 фантастика и фэнтези,
+10768 война и политика, 37 вестерн.
+Если зритель называет фильм, на который хочет похожее («как Интерстеллар»), — возьми жанры
+этого фильма. Если жанр не назван и не угадывается («что посмотреть вечером?») — пустые списки.
 Ответь ОДНИМ JSON-объектом:
-{{"type": "movie|tv|any", "movie_genres": [id, ...], "tv_genres": [id, ...],
-  "label": "что ищем, 1–3 слова по-русски во множественном числе (например «ужасы», «лёгкие комедии»)",
-  "wish": "особые пожелания из запроса одной фразой или ''"}}
-Если жанр не назван («что посмотреть вечером?») — пустые списки жанров."""
+{{"movie_genres": [id, ...], "tv_genres": [id, ...],
+  "label": "что ищем, 1–3 слова по-русски (например «фантастика», «похожее на Интерстеллар»)",
+  "wish": "особые пожелания одной фразой: тема, настроение, на что похоже; или ''"}}"""
 
 RANK_PROMPT = """Ты — киносоветчик. Вот вкус зрителя по его оценкам:
 Любимое: {love}
@@ -777,10 +869,12 @@ RANK_PROMPT = """Ты — киносоветчик. Вот вкус зрител
 Не понравилось: {nope}
 
 Его запрос: «{query}»
+Как бот его понял: {understood}
 
-Ниже новинки последних месяцев с высокими оценками. Выбери до {n} штук, которые лучше всего
-подходят под запрос и под его вкус: похожи на любимое и понравившееся, не похожи на то, что
-не понравилось. Учитывай особые пожелания из запроса. Лучше меньше, но точно.
+Ниже новинки последних месяцев с высокими оценками. Выбери до {n} штук, которые ДЕЙСТВИТЕЛЬНО
+подходят под запрос (жанр, тема, пожелания) и лучше всего — под его вкус: похожи на любимое
+и понравившееся, не похожи на то, что не понравилось. То, что не подходит под запрос, не выбирай,
+даже если оно хорошее. Лучше меньше, но точно; если не подходит ничего — ответь [].
 Ответь ТОЛЬКО JSON-массивом:
 [{{"n": номер, "why": "1–2 коротких предложения по-русски: почему именно ему понравится; если
 уместно — сравни с конкретным фильмом или сериалом из его любимого"}}]
@@ -790,68 +884,209 @@ RANK_PROMPT = """Ты — киносоветчик. Вот вкус зрител
 
 
 def parse_request(text, state, cfg):
-    low = text.lower()
-    kind = "tv" if re.search(r"сериал|сезон", low) else "movie" if re.search(r"фильм|кино\b|киношк", low) else "any"
-    q = {"type": kind, "movie_genres": [], "tv_genres": [], "label": "", "wish": ""}
-    for rx, label, mg, tg in GENRES:
+    """Разбирает запрос: жанры (все сразу — «фантастический боевик»), исключения («без ужасов»),
+    тип, страна, сервис, длина, свежесть, оценка. Если жанр не назван — спрашивает ИИ."""
+    low = " " + text.lower().replace("ё", "е") + " "
+    q = {"type": "any", "kinds": {"tv", "season"}, "genres": [], "exclude": [], "country": None,
+         "count": cfg["rec_count"],
+         "service": None, "runtime": None, "days": cfg["rec_days"], "min": cfg["rec_min_rating"],
+         "movie_genres": [], "tv_genres": [], "label": "", "wish": "", "parts": []}
+
+    # сколько советовать: «5 фильмов», «пару сериалов», «один ужастик» (от 1 до 5)
+    words = {"один": 1, "одну": 1, "одного": 1, "что-нибудь одно": 1, "два": 2, "две": 2, "пару": 2,
+             "парочку": 2, "три": 3, "тройку": 3, "четыре": 4, "пять": 5, "пяток": 5,
+             "несколько": 3, "пару-тройку": 3}
+    m = re.search(r"(?<![\d.,+])(?<!от )(?<!за )(?<!выше )(?<!рейтинг )\b([1-9]|10|"
+                  + "|".join(sorted(map(re.escape, words), key=len, reverse=True))
+                  + r")\b(?![.,]\d|\s*\+|\s*(?:сезон|сери[ия]\b|серий|месяц|недел|год|лет|час|мин|дн))", low)
+    if m:
+        v = words.get(m.group(1)) or int(m.group(1))
+        q["count"] = max(1, min(5, v))
+        q["capped"] = v > 5
+    elif re.search(r"\bодин\b|\bодно\b|\bчто-то одно\b", low):
+        q["count"] = 1
+
+    # «без ужасов», «кроме мультиков», «не комедию» — исключаем жанр
+    for m in NEGATION.finditer(low):
+        for key, label, rx, mg, tg in GENRES:
+            if re.match(rx, m.group(1)):
+                q["exclude"].append(key)
+                low = low.replace(m.group(0), " ")
+    for key, label, rx, mg, tg in GENRES:
+        if key not in q["exclude"] and re.search(rx, low):
+            q["genres"].append(key)
+    if "romance" in q["genres"] and "comedy" in q["genres"] and "drama" in q["genres"]:
+        q["genres"].remove("drama")                     # «романтическая комедия» — без драмы
+
+    # фильм или сериал
+    if re.search(r"нов\w* сезон|сезон", low):
+        q["type"], q["kinds"] = "tv", {"season"}
+    elif re.search(r"нов\w* сериал", low):
+        q["type"], q["kinds"] = "tv", {"tv"}
+    elif re.search(r"сериал|шоу|мини-?сериал", low):
+        q["type"] = "tv"
+    elif re.search(r"фильм|кино(?!поиск)|киношк|полнометраж|мульт(?!сериал)", low):
+        q["type"] = "movie"
+
+    for rx, code, label in COUNTRIES:
         if re.search(rx, low):
-            q["movie_genres"] += mg
-            q["tv_genres"] += tg
-            q["label"] = q["label"] or label
-    if not q["movie_genres"]:                          # жанр не узнали — спросим ИИ
+            q["country"] = (code, label)
+            break
+    for rx, part, label in SERVICES:
+        if re.search(rx, low):
+            q["service"] = (part, label)
+            break
+    if re.search(r"коротк|недолг|до полутора|до 1[.,]5|на полтора час|часа на полтора", low):
+        q["runtime"] = ("lte", 100, "до 1 ч 40 мин")
+    elif re.search(r"длинн|долг\w* фильм|эпическ|эпопе", low):
+        q["runtime"] = ("gte", 140, "длинное")
+
+    if re.search(r"за (?:последн\w* )?недел", low):
+        q["days"] = 10
+    elif re.search(r"за (?:последн\w* )?месяц|свеж|только что|самое нов|совсем нов", low):
+        q["days"] = 35
+    elif re.search(r"за (?:последн\w* )?(?:2|два|3|три) месяц", low):
+        q["days"] = 95
+    elif re.search(r"за (?:последн\w* |этот )?год", low):
+        q["days"] = 365
+    m = re.search(r"(?:от|выше|больше|не ниже|рейтинг\w*)\s*(\d(?:[.,]\d)?)(?!\d)|(\d(?:[.,]\d)?)\s*\+", low)
+    if m:
+        v = float((m.group(1) or m.group(2)).replace(",", "."))
+        if 5 <= v <= 9.5:
+            q["min"] = v
+    elif re.search(r"высок\w* рейтинг|самое лучш|лучш\w* из|шедевр|топов", low):
+        q["min"] = max(q["min"], 7.5)
+
+    # жанр не назван (или «похожее на …», «про …») — спросим ИИ
+    if not q["genres"] or re.search(r"похож|как в|типа|в духе|в стиле", low):
         res = claude(PARSE_PROMPT.format(q=text[:300]), state, cfg, max_tokens=300)
         if res:
             r = res[0]
             ints = lambda v: [int(x) for x in (v or []) if str(x).isdigit()]
-            q.update(movie_genres=ints(r.get("movie_genres")), tv_genres=ints(r.get("tv_genres")),
-                     label=str(r.get("label") or "")[:40], wish=str(r.get("wish") or "")[:120])
-            if r.get("type") in ("movie", "tv", "any") and kind == "any":
-                q["type"] = r["type"]
+            if not q["genres"]:
+                q["movie_genres"], q["tv_genres"] = ints(r.get("movie_genres")), ints(r.get("tv_genres"))
+                q["label"] = str(r.get("label") or "")[:40]
+            q["wish"] = str(r.get("wish") or "")[:150]
+    if q["genres"]:
+        q["label"] = " + ".join(GENRE[k][1] for k in q["genres"])
     q["label"] = q["label"] or "новинки"
+
+    parts = [q["label"]]
+    if q["exclude"]:
+        parts.append("без: " + ", ".join(GENRE[k][1] for k in q["exclude"]))
+    parts.append({"movie": "фильмы", "any": "фильмы и сериалы"}.get(q["type"]) or
+                 ("новые сезоны" if q["kinds"] == {"season"} else "новые сериалы"
+                  if q["kinds"] == {"tv"} else "сериалы"))
+    if q["country"]:
+        parts.append(q["country"][1])
+    if q["service"]:
+        parts.append(q["service"][1])
+    if q["runtime"]:
+        parts.append(q["runtime"][2])
+    parts.append("за год" if q["days"] >= 365 else f"за {q['days'] // 30} мес." if q["days"] >= 60
+                 else "за месяц" if q["days"] >= 30 else "за неделю")
+    parts.append(f"оценки от {q['min']:g}")
+    if q["count"] != cfg["rec_count"]:
+        parts.append(f"{q['count']} шт." + (" (больше 5 за раз не присылаю)" if q.get("capped") else ""))
+    q["parts"] = parts
     return q
 
 
-def recommend(state, cfg, today, text):
-    """Ответ на «Хочу посмотреть ужастик»: несколько новинок под вкус зрителя."""
-    q = parse_request(text, state, cfg)
-    start = today - dt.timedelta(days=cfg["rec_days"])
+def genre_filter(q, kind, any_of=False):
+    """Параметры TMDB: все жанры сразу (через запятую) или любой из них (через |)."""
+    col = 3 if kind == "movie" else 4
+    if q["genres"]:
+        groups = [GENRE[k][col] for k in q["genres"] if GENRE[k][col]]
+        if not groups:
+            return None                                  # у сериалов такого жанра нет
+        if any_of or len(groups) == 1:
+            ids = "|".join(dict.fromkeys(str(i) for g in groups for i in g))
+        else:
+            ids = ",".join(dict.fromkeys(str(g[0]) for g in groups))
+    else:
+        ids = "|".join(map(str, q["movie_genres"] if kind == "movie" else q["tv_genres"]))
+    out = {"with_genres": ids} if ids else {}
+    # у сериалов «ужасы», «триллеры», «мелодрамы» и «история» — лишь похожие жанры TMDB,
+    # исключать их нельзя: вместе с ними пропало бы лишнее
+    rough = {"horror", "thriller", "romance", "history"} if kind != "movie" else set()
+    used = set(ids.replace("|", ",").split(","))
+    ex = [str(i) for k in q["exclude"] if k not in rough for i in GENRE[k][col] if str(i) not in used]
+    if ex:
+        out["without_genres"] = ",".join(ex)
+    if q["country"]:
+        out["with_origin_country"] = q["country"][0]
+    if kind == "movie" and q["runtime"]:
+        out[f"with_runtime.{q['runtime'][0]}"] = str(q["runtime"][1])
+    return out
+
+
+def find_candidates(q, cfg, today, days, any_of=False):
+    start = today - dt.timedelta(days=days)
     items = []
     if q["type"] in ("movie", "any"):
-        extra = {"with_genres": "|".join(map(str, q["movie_genres"]))} if q["movie_genres"] else {}
-        items += movie_items(cfg, start, today, extra, limit=25 if q["type"] == "movie" else 15, pages=2)
+        extra = genre_filter(q, "movie", any_of)
+        if extra is not None:
+            items += movie_items(cfg, start, today, extra, limit=25 if q["type"] == "movie" else 15, pages=2)
     if q["type"] in ("tv", "any"):
-        extra = {"with_genres": "|".join(map(str, q["tv_genres"]))} if q["tv_genres"] else {}
-        seen, tv = set(), []
-        for it in sorted(tv_items(cfg, start, today, {"tv", "season"}, extra,
-                                  limit=20 if q["type"] == "tv" else 12, pages=1),
-                         key=lambda x: x["date"], reverse=True):
-            if it["tmdb_id"] not in seen:              # у сериала — только самый свежий сезон
-                seen.add(it["tmdb_id"])
-                tv.append(it)
-        items += tv
-    known = taste_known(state)
-    items = [it for it in items if it["key"] not in known and it["title"].lower() not in known
-             and str(it.get("orig") or "").lower() not in known
-             and not (set(it.get("genres", [])) & cfg["exclude"])]
+        extra = genre_filter(q, "tv", any_of)
+        if extra is not None:
+            seen = set()
+            for it in sorted(tv_items(cfg, start, today, q["kinds"], extra,
+                                      limit=20 if q["type"] == "tv" else 12, pages=1),
+                             key=lambda x: x["date"], reverse=True):
+                if it["tmdb_id"] not in seen:          # у сериала — только самый свежий сезон
+                    seen.add(it["tmdb_id"])
+                    items.append(it)
+    if q["service"]:
+        part = q["service"][0]
+        items = [it for it in items if any(part in str(n).lower() for n in
+                 (it.get("providers") or {}).get("sub", []) + (it.get("providers") or {}).get("paid", []))]
+    return items
 
-    good, near = [], []
-    for it in sorted(items, key=lambda x: -x["popularity"]):
-        rec = kp_lookup(it, state, today) or {}
-        if passes(rec, cfg, cfg["rec_min_rating"], cfg["rec_min_rating"]):
-            good.append((it, rec))
-        elif passes(rec, cfg, cfg["rec_min_rating"] - 0.5, cfg["rec_min_rating"] - 0.5):
-            near.append((it, rec))
-    note = ""
-    if not good and near:
-        good, note = near, (f"С оценкой от {cfg['rec_min_rating']:g} ничего не нашлось — "
-                            f"вот лучшее, что есть (от {cfg['rec_min_rating'] - 0.5:g}).")
+
+def recommend(state, cfg, today, text):
+    """Ответ на «Хочу посмотреть фантастику»: несколько новинок под запрос и вкус зрителя."""
+    q = parse_request(text, state, cfg)
+    known = taste_known(state)
+    nope = disliked_shows(state)
+
+    def rated(items, min_r):
+        items = [it for it in items if it["key"] not in known and it["title"].lower() not in known
+                 and str(it.get("orig") or "").lower() not in known
+                 and not (it["kind"] != "movie" and str(it["tmdb_id"]) in nope)
+                 and not (set(it.get("genres", [])) & cfg["exclude"])]
+        out = []
+        for it in sorted(items, key=lambda x: -x["popularity"]):
+            rec = kp_lookup(it, state, today) or {}
+            if passes(rec, cfg, min_r, min_r):
+                out.append((it, rec))
+                if len(out) >= 12:                 # хватит — бережём лимит Кинопоиска
+                    break
+        return out
+
+    # ищем строго; если мало — ослабляем по шагам и честно пишем, что ослабили
+    notes, good = [], rated(find_candidates(q, cfg, today, q["days"]), q["min"])
+    if len(good) < q["count"] and len(q["genres"]) > 1:
+        more = rated(find_candidates(q, cfg, today, q["days"], any_of=True), q["min"])
+        if len(more) > len(good):
+            good = good + [p for p in more if p[0]["key"] not in {g[0]["key"] for g in good}]
+            notes.append("всех жанров сразу почти нет — добавил подходящее хотя бы по одному")
+    if len(good) < q["count"] and q["days"] < 365:
+        more = rated(find_candidates(q, cfg, today, 365, any_of=len(q["genres"]) > 1), q["min"])
+        new = [p for p in more if p[0]["key"] not in {g[0]["key"] for g in good}]
+        if new:
+            good += new
+            notes.append("за выбранный срок мало — добавил новинки за год")
+    if not good:
+        good = rated(find_candidates(q, cfg, today, max(q["days"], 365), any_of=True), q["min"] - 0.5)
+        if good:
+            notes.append(f"с оценкой от {q['min']:g} ничего не нашлось — вот лучшее от {q['min'] - 0.5:g}")
     score = lambda p: -((p[1].get("imdb") or 0) + (p[1].get("kp") or 0))
-    good.sort(key=score)
-    good = good[:20]
+    good = sorted(good, key=score)[:20]
 
     picks = []
     taste = load_taste(state)
-    if len(good) > 1 and any(taste.values()):
+    if good and os.environ.get("ANTHROPIC_API_KEY"):
         lines = []
         for i, (it, rec) in enumerate(good, 1):
             kind = {"movie": "фильм", "tv": "новый сериал", "season": f"{it.get('season')} сезон"}[it["kind"]]
@@ -859,9 +1094,10 @@ def recommend(state, cfg, today, text):
                          f"{', '.join(it.get('genres', []))} | IMDb {rec.get('imdb')} КП {rec.get('kp')} | "
                          f"{short_plot(it.get('plot') or rec.get('desc'), 250)}")
         cut = lambda xs: "; ".join(xs[-40:]) or "—"
+        understood = ", ".join(q["parts"]) + (f"; пожелания: {q['wish']}" if q["wish"] else "")
         res = claude(RANK_PROMPT.format(love=cut(taste["love"]), like=cut(taste["like"]),
-                                        nope=cut(taste["nope"]), query=text[:300],
-                                        n=cfg["rec_count"], items="\n".join(lines)),
+                                        nope=cut(taste["nope"]), query=text[:300], understood=understood,
+                                        n=q["count"], items="\n".join(lines)),
                      state, cfg, max_tokens=900)
         for r in res:
             try:
@@ -870,36 +1106,59 @@ def recommend(state, cfg, today, text):
                 continue
             if 1 <= n <= len(good) and all(p[0] is not good[n - 1][0] for p in picks):
                 picks.append((*good[n - 1], str(r.get("why") or "")))
-            if len(picks) >= cfg["rec_count"]:
+            if len(picks) >= q["count"]:
                 break
-    if not picks:                                       # без ИИ или без опроса — по оценкам
-        picks = [(it, rec, "") for it, rec in good[:cfg["rec_count"]]]
-    return q, picks, note, any(taste.values())
+    if not picks:                                       # без ИИ — просто лучшие по оценкам
+        picks = [(it, rec, "") for it, rec in good[:q["count"]]]
+    return q, picks, "; ".join(notes), any(taste.values())
 
 
-HELP = ("🍿 <b>Я советую новинки кино под ваш вкус.</b>\n\n"
-        "Напишите, что хотите посмотреть, например:\n"
-        "• <code>/kino ужастик</code>\n• <code>/kino лёгкую комедию на вечер</code>\n"
-        "• <code>/kino сериал про расследование</code>\n\n"
-        "В личной переписке со мной можно без /kino — просто текстом.\n"
-        "Отвечайте на карточки «👍» или «👎» — я запомню, что вам нравится.\n"
+HELP = ("🍿 <b>Я советую новинки кино и сериалов под ваш вкус.</b>\n"
+        "Пишите <code>/kino</code> и что хотите — я пойму жанр, тип, страну, сервис и т. д.\n\n"
+        "<b>Жанр</b> (можно несколько сразу):\n"
+        "<code>/kino ужастик</code> · <code>/kino фантастику</code> · <code>/kino боевик</code>\n"
+        "<code>/kino комедию</code> · <code>/kino триллер</code> · <code>/kino детектив</code>\n"
+        "<code>/kino драму</code> · <code>/kino мелодраму</code> · <code>/kino фэнтези</code>\n"
+        "<code>/kino криминал</code> · <code>/kino военное</code> · <code>/kino мультфильм</code>\n"
+        "<code>/kino документалку</code> · <code>/kino семейное</code> · <code>/kino вестерн</code>\n"
+        "<code>/kino фантастический боевик</code> · <code>/kino романтическую комедию</code>\n\n"
+        "<b>Фильм или сериал:</b>\n"
+        "<code>/kino сериал про расследование</code> · <code>/kino новый сериал</code>\n"
+        "<code>/kino новые сезоны</code> · <code>/kino фильм на вечер</code>\n\n"
+        "<b>Уточнения:</b>\n"
+        "• без жанра — <code>/kino триллер без ужасов</code>\n"
+        "• страна — <code>/kino корейский триллер</code>, <code>/kino британский сериал</code>\n"
+        "• сервис — <code>/kino что на Netflix</code>, <code>/kino сериал на Max</code>\n"
+        "• длина — <code>/kino короткий фильм</code>\n"
+        "• свежесть — <code>/kino самое новое</code>, <code>/kino фантастика за год</code>\n"
+        "• оценка — <code>/kino комедию от 8</code>\n"
+        "• сколько — <code>/kino 5 боевиков</code>, <code>/kino пару сериалов</code>, "
+        "<code>/kino один ужастик</code> (от 1 до 5)\n\n"
+        "<b>Своими словами</b> — тоже пойму:\n"
+        "<code>/kino что-то похожее на Интерстеллар</code>\n"
+        "<code>/kino про космос</code> · <code>/kino про ограбление</code> · <code>/kino про зомби</code>\n"
+        "<code>/kino что-нибудь лёгкое на вечер</code>\n\n"
+        "В личке со мной можно без /kino. Ставьте 👍/👎 на карточки — я запомню ваш вкус.\n"
         "<i>Отвечаю примерно через минуту.</i>")
 
 
 def answer_request(state, cfg, today, chat, reply_to, text):
     q, picks, note, has_taste = recommend(state, cfg, today, text)
-    months = max(1, round(cfg["rec_days"] / 30))
+    understood = " · ".join(esc(p) for p in q["parts"])
     if not picks and KP["off"]:
         tg_send(f"⚠️ {esc(KP['off'])}. Попробуйте завтра.", chat=chat, reply_to=reply_to)
         return
     if not picks:
-        tg_send(f"😔 Не нашёл новинок ({esc(q['label'])}) за последние {months} мес. с высокими "
-                "оценками. Попробуйте другой жанр.", chat=chat, reply_to=reply_to)
+        tg_send(f"😔 Ничего не нашёл.\n<i>Понял так: {understood}</i>\n\n"
+                "Попробуйте шире: другой жанр, без страны или сервиса, «за год». "
+                "Все варианты запросов — <code>/help</code>.", chat=chat, reply_to=reply_to)
         return
-    head = [f"🎯 <b>{esc(q['label'][:1].upper() + q['label'][1:])}</b> под ваш вкус · "
-            f"новинки за {months} мес."]
+    head = [f"🎯 <b>{esc(q['label'][:1].upper() + q['label'][1:])}</b> под ваш вкус",
+            f"<i>Понял так: {understood}</i>"]
     if note:
-        head.append(f"<i>{esc(note)}</i>")
+        head.append(f"<i>{esc(note[:1].upper() + note[1:])}.</i>")
+    if len(picks) < q["count"]:
+        head.append(f"<i>Подходящих нашлось {len(picks)} из {q['count']}.</i>")
     if not has_taste:
         head.append("<i>Пройдите опрос (файл taste.txt) — советы станут точнее.</i>")
     tg_send("\n".join(head), chat=chat, reply_to=reply_to)
