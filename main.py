@@ -59,7 +59,7 @@ def load_settings():
                 "watch_country": "LV", "regions": "US, GB, DE",
                 "exclude_genres": "реалити-шоу, ток-шоу, новости, мыльная опера",
                 "max_cards": "20", "kp_requests_per_run": "150", "show_diagnostics": "auto",
-                "rec_count": "3", "rec_days": "180", "rec_min_rating": "7.0",
+                "rec_count": "3", "rec_days": "365", "rec_min_rating": "7.0",
                 "model": "claude-haiku-5-5", "monthly_budget_usd": "1.00"}
     for k, v in defaults.items():
         s.setdefault(k, v)
@@ -364,6 +364,14 @@ def omdb_lookup(imdb_id, rec):
     if num(j.get("imdbRating")):
         rec["imdb"] = num(j["imdbRating"])
         rec["imdb_votes"] = int(num(j.get("imdbVotes")) or 0)
+
+
+def passes_soft(rec, min_r):
+    """Для советов: у свежих фильмов одной из оценок часто ещё нет. Достаточно, чтобы все
+    оценки, которые уже есть (и набрали хоть немного голосов), были не ниже min_r."""
+    have = [v for v, n, need in ((rec.get("imdb"), rec.get("imdb_votes", 0), 300),
+                                 (rec.get("kp"), rec.get("kp_votes", 0), 200)) if v and n >= need]
+    return bool(have) and all(v >= min_r for v in have)
 
 
 def passes(rec, cfg, min_imdb=None, min_kp=None):
@@ -672,7 +680,7 @@ def remember_card(state, res, it, rec):
     cards[f"{(res.get('chat') or {}).get('id', CHAT['id'])}:{mid}"] = {
         "key": it["key"], "t": rec.get("name") or it["title"], "o": it.get("orig") or "",
         "y": it.get("year") or "", "g": ", ".join(it.get("genres", [])[:3]),
-        "k": "сериал" if it["kind"] != "movie" else "фильм"}
+        "k": "сериал" if it["kind"] != "movie" else "фильм", "d": dt.date.today().isoformat()}
     while len(cards) > 400:
         cards.pop(next(iter(cards)))
 
@@ -949,6 +957,10 @@ def parse_request(text, state, cfg):
         q["days"] = 95
     elif re.search(r"за (?:последн\w* |этот )?год", low):
         q["days"] = 365
+    elif re.search(r"за (?:последн\w* )?(?:2|два) года|за пару лет", low):
+        q["days"] = 730
+    elif re.search(r"за полгода|за (?:последн\w* )?(?:6|шесть) месяц", low):
+        q["days"] = 180
     m = re.search(r"(?:от|выше|больше|не ниже|рейтинг\w*)\s*(\d(?:[.,]\d)?)(?!\d)|(\d(?:[.,]\d)?)\s*\+", low)
     if m:
         v = float((m.group(1) or m.group(2)).replace(",", "."))
@@ -983,7 +995,7 @@ def parse_request(text, state, cfg):
         parts.append(q["service"][1])
     if q["runtime"]:
         parts.append(q["runtime"][2])
-    parts.append("за год" if q["days"] >= 365 else f"за {q['days'] // 30} мес." if q["days"] >= 60
+    parts.append("за 2 года" if q["days"] >= 700 else "за год" if q["days"] >= 365 else f"за {q['days'] // 30} мес." if q["days"] >= 60
                  else "за месяц" if q["days"] >= 30 else "за неделю")
     parts.append(f"оценки от {q['min']:g}")
     if q["count"] != cfg["rec_count"]:
@@ -1026,13 +1038,24 @@ def find_candidates(q, cfg, today, days, any_of=False):
     if q["type"] in ("movie", "any"):
         extra = genre_filter(q, "movie", any_of)
         if extra is not None:
-            items += movie_items(cfg, start, today, extra, limit=25 if q["type"] == "movie" else 15, pages=2)
+            n = 30 if q["type"] == "movie" else 18
+            items += movie_items(cfg, start, today, extra, limit=n, pages=2)
+            # и отдельно — лучшие по оценкам зрителей TMDB, даже если они не на слуху
+            seen = {it["key"] for it in items}
+            items += [it for it in movie_items(cfg, start, today, {**extra, "sort_by": "vote_average.desc",
+                                                                   "vote_count.gte": "80"},
+                                               limit=n // 2, pages=1) if it["key"] not in seen]
     if q["type"] in ("tv", "any"):
         extra = genre_filter(q, "tv", any_of)
         if extra is not None:
             seen = set()
-            for it in sorted(tv_items(cfg, start, today, q["kinds"], extra,
-                                      limit=20 if q["type"] == "tv" else 12, pages=1),
+            n = 24 if q["type"] == "tv" else 14
+            tv = tv_items(cfg, start, today, q["kinds"], extra, limit=n, pages=2)
+            keys = {it["key"] for it in tv}
+            tv += [it for it in tv_items(cfg, start, today, q["kinds"],
+                                         {**extra, "sort_by": "vote_average.desc", "vote_count.gte": "50"},
+                                         limit=n // 2, pages=1) if it["key"] not in keys]
+            for it in sorted(tv,
                              key=lambda x: x["date"], reverse=True):
                 if it["tmdb_id"] not in seen:          # у сериала — только самый свежий сезон
                     seen.add(it["tmdb_id"])
@@ -1058,11 +1081,15 @@ def recommend(state, cfg, today, text):
         out = []
         for it in sorted(items, key=lambda x: -x["popularity"]):
             rec = kp_lookup(it, state, today) or {}
-            if passes(rec, cfg, min_r, min_r):
+            if passes_soft(rec, min_r):
                 out.append((it, rec))
-                if len(out) >= 12:                 # хватит — бережём лимит Кинопоиска
+                if len(out) >= max(15, q["count"] * 4):    # хватит — бережём лимит Кинопоиска
                     break
         return out
+
+    # что недавно уже советовал — показываем, только если больше нечего
+    recent = {c.get("key") for c in state.get("cards", {}).values()
+              if c.get("d", "") >= (today - dt.timedelta(days=21)).isoformat()}
 
     # ищем строго; если мало — ослабляем по шагам и честно пишем, что ослабили
     notes, good = [], rated(find_candidates(q, cfg, today, q["days"]), q["min"])
@@ -1071,18 +1098,21 @@ def recommend(state, cfg, today, text):
         if len(more) > len(good):
             good = good + [p for p in more if p[0]["key"] not in {g[0]["key"] for g in good}]
             notes.append("всех жанров сразу почти нет — добавил подходящее хотя бы по одному")
-    if len(good) < q["count"] and q["days"] < 365:
-        more = rated(find_candidates(q, cfg, today, 365, any_of=len(q["genres"]) > 1), q["min"])
+    fresh = lambda xs: [p for p in xs if p[0]["key"] not in recent]
+    if len(fresh(good)) < q["count"] and q["days"] < 730:
+        longer = 365 if q["days"] < 365 else 730
+        more = rated(find_candidates(q, cfg, today, longer, any_of=len(q["genres"]) > 1), q["min"])
         new = [p for p in more if p[0]["key"] not in {g[0]["key"] for g in good}]
         if new:
             good += new
-            notes.append("за выбранный срок мало — добавил новинки за год")
+            notes.append("за выбранный срок мало — добавил новинки "
+                         + ("за год" if longer == 365 else "за два года"))
     if not good:
-        good = rated(find_candidates(q, cfg, today, max(q["days"], 365), any_of=True), q["min"] - 0.5)
+        good = rated(find_candidates(q, cfg, today, 730, any_of=True), q["min"] - 0.5)
         if good:
             notes.append(f"с оценкой от {q['min']:g} ничего не нашлось — вот лучшее от {q['min'] - 0.5:g}")
     score = lambda p: -((p[1].get("imdb") or 0) + (p[1].get("kp") or 0))
-    good = sorted(good, key=score)[:20]
+    good = sorted(good, key=lambda p: (p[0]["key"] in recent, score(p)))[:20]
 
     picks = []
     taste = load_taste(state)
@@ -1092,7 +1122,8 @@ def recommend(state, cfg, today, text):
             kind = {"movie": "фильм", "tv": "новый сериал", "season": f"{it.get('season')} сезон"}[it["kind"]]
             lines.append(f"[{i}] {rec.get('name') or it['title']} / {it.get('orig')} ({it.get('year')}, {kind}) | "
                          f"{', '.join(it.get('genres', []))} | IMDb {rec.get('imdb')} КП {rec.get('kp')} | "
-                         f"{short_plot(it.get('plot') or rec.get('desc'), 250)}")
+                         f"{short_plot(it.get('plot') or rec.get('desc'), 250)}"
+                         + (" | недавно уже советовал — бери, только если больше нечего" if it["key"] in recent else ""))
         cut = lambda xs: "; ".join(xs[-40:]) or "—"
         understood = ", ".join(q["parts"]) + (f"; пожелания: {q['wish']}" if q["wish"] else "")
         res = claude(RANK_PROMPT.format(love=cut(taste["love"]), like=cut(taste["like"]),
@@ -1130,7 +1161,8 @@ HELP = ("🍿 <b>Я советую новинки кино и сериалов �
         "• страна — <code>/kino корейский триллер</code>, <code>/kino британский сериал</code>\n"
         "• сервис — <code>/kino что на Netflix</code>, <code>/kino сериал на Max</code>\n"
         "• длина — <code>/kino короткий фильм</code>\n"
-        "• свежесть — <code>/kino самое новое</code>, <code>/kino фантастика за год</code>\n"
+        "• свежесть — <code>/kino самое новое</code>, <code>/kino за полгода</code>, "
+        "<code>/kino за 2 года</code> (обычно — за год)\n"
         "• оценка — <code>/kino комедию от 8</code>\n"
         "• сколько — <code>/kino 5 боевиков</code>, <code>/kino пару сериалов</code>, "
         "<code>/kino один ужастик</code> (от 1 до 5)\n\n"
