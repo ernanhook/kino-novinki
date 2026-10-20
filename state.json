@@ -372,6 +372,15 @@
 "t": "История игрушек 5",
 "y": "2026"
 },
+"-5333529396:94": {
+"d": "2026-10-20",
+"g": "мультфильм, фантастика, приключения",
+"k": "фильм",
+"key": "movie:698687",
+"o": "Transformers One",
+"t": "Трансформеры: Начало",
+"y": "2024"
+},
 "291627066:35": {
 "g": "драма, детектив, нф и фэнтези",
 "k": "сериал",
@@ -398,8 +407,8 @@
 }
 },
 "kp_day": {
-"date": "2026-10-20",
-"n": 0
+"date": "2026-10-21",
+"n": 10
 },
 "last_digest": "2026-10-16",
 "members": {
@@ -518,6 +527,17 @@
 "kp_votes": 92137,
 "name": "Финес и Ферб",
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/6201401/3738e679-fe78-4d7a-b412-4f3616347c66/600x900"
+},
+"tt10676052": {
+"checked": "2026-10-21",
+"desc": "Семья супергероев против пожирателя миров. Педро Паскаль в стильном ретро-сай-фае по комиксам Marvel",
+"imdb": 6.8,
+"imdb_votes": 253000,
+"kp": 6.28,
+"kp_id": 1287545,
+"kp_votes": 66084,
+"name": "Фантастическая четвёрка: Первые шаги",
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10853012/1d22c10e-ecc7-45a7-ab2e-c0c06cc6a7b7/600x900"
 },
 "tt1091909": {
 "checked": "2026-10-14",
@@ -651,6 +671,17 @@
 "name": "Бегущий человек",
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10768063/8a398ac8-ea13-49fc-a41a-fcf3646c7535/600x900"
 },
+"tt14850054": {
+"checked": "2026-10-21",
+"desc": "Жизнь в безопасном бункере под угрозой, и им снова нужно искать укрытие. Зрелищный фильм-катастрофа с Джерардом Батлером",
+"imdb": 5.2,
+"imdb_votes": 23000,
+"kp": 6.477,
+"kp_id": 4476433,
+"kp_votes": 264242,
+"name": "Гренландия 2: Миграция",
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10853012/58fb8c53-f6a6-420e-8e5d-4ac30a184ea8/600x900"
+},
 "tt15047880": {
 "checked": "2026-10-16",
 "desc": "Как человечество отреагирует на правду о внеземных цивилизациях? Эмили Блант в блокбастере Стивена Спилберга",
@@ -683,6 +714,17 @@
 "kp_votes": 88639,
 "name": "Король Талсы",
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10835644/603af74c-d76e-4237-8f74-03782550d6dc/600x900"
+},
+"tt16366836": {
+"checked": "2026-10-21",
+"desc": "Эдди и его друг-симбиот — против спецслужб и инопланетян. Взрывной финал супергеройской франшизы с Томом Харди",
+"imdb": 6.0,
+"imdb_votes": 152000,
+"kp": 6.61,
+"kp_id": 4766559,
+"kp_votes": 199183,
+"name": "Веном: Последний танец",
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10703859/d8a5b34e-321c-4881-a14a-f75dc549cbea/600x900"
 },
 "tt17491088": {
 "checked": "2026-10-16",
@@ -839,18 +881,18 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10703859/bd13bebb-b612-4315-8ac9-e7daf20c48b5/600x900"
 },
 "tt26657236": {
-"checked": "2026-10-14",
+"checked": "2026-10-21",
 "desc": "Продавец мебели находит бесконечный лабиринт пустых комнат. Хоррор-хит по мотивам легендарной крипипасты",
 "imdb": 6.8,
 "imdb_votes": 190186,
-"kp": 6.52,
+"kp": 6.527,
 "kp_id": 5452841,
-"kp_votes": 284806,
+"kp_votes": 291284,
 "name": "Закулисье реальности",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/16490236/c8f19c79-93a6-45c6-a96d-39593ac3d87b/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/16490236/c8f19c79-93a6-45c6-a96d-39593ac3d87b/600x900"
 },
 "tt27165187": {
-"checked": "2026-10-14",
+"checked": "2026-10-21",
 "desc": "Семейство в кризисе против доисторических хищников. Экшен-фантастика с Энн Хэтэуэй и Юэном Макгрегором",
 "imdb": 6.5,
 "imdb_votes": 41620,
@@ -861,15 +903,15 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10900341/ea3542bc-be58-47a4-9fd0-bb417806c9bd/600x900"
 },
 "tt27369017": {
-"checked": "2026-10-14",
+"checked": "2026-10-21",
 "desc": "Жители деревни противостоят монстрам, явившимся из ниоткуда. Корейский фантастический экшен из программы Канн",
 "imdb": 6.8,
 "imdb_votes": 9856,
-"kp": 6.445,
+"kp": 6.432,
 "kp_id": 5230825,
-"kp_votes": 18279,
+"kp_votes": 21251,
 "name": "Надежда",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10812607/d0e07fd2-fa09-486c-98c2-245b6fa5b267/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10812607/d0e07fd2-fa09-486c-98c2-245b6fa5b267/600x900"
 },
 "tt27419466": {
 "checked": "2026-10-14",
@@ -1002,6 +1044,17 @@
 "kp_votes": 6686,
 "name": "Пиноккио: Раскрепощённый",
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10703959/1fd5332a-ab09-4331-93ec-a0e9cf4c73da/600x900"
+},
+"tt31036941": {
+"checked": "2026-10-21",
+"desc": "Экспедиция должна добыть ДНК динозавров ради создания нового лекарства. Продолжение культовой франшизы",
+"imdb": 5.8,
+"imdb_votes": 189000,
+"kp": 5.816,
+"kp_id": 5450952,
+"kp_votes": 59749,
+"name": "Мир Юрского периода: Возрождение",
+"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4483445/c27882f6-5c3b-4eea-9db5-a83da4c36f77/600x900"
 },
 "tt31049299": {
 "checked": "2026-10-14",
@@ -1400,13 +1453,13 @@
 "poster": ""
 },
 "tt36809539": {
-"checked": "2026-10-14",
+"checked": "2026-10-21",
 "desc": "",
 "imdb": 5.3,
 "imdb_votes": 43,
 "kp": null,
 "kp_id": 14169868,
-"kp_votes": 13,
+"kp_votes": 14,
 "name": "",
 "poster": ""
 },
@@ -1740,6 +1793,17 @@
 "name": "Медленные лошади",
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10812607/6eb8e93e-bf8e-4637-9758-5e86138d2312/600x900"
 },
+"tt5950044": {
+"checked": "2026-10-21",
+"desc": "Супермен противостоит Лексу Лютору вместе с Бандой Справедливости. Ребут культовой классики от Джеймса Ганна",
+"imdb": 7.0,
+"imdb_votes": 396000,
+"kp": 6.676,
+"kp_id": 997647,
+"kp_votes": 84084,
+"name": "Супермен",
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10835644/019b33f5-f5dc-4b78-927c-eb93417d544d/600x900"
+},
 "tt6037988": {
 "checked": "2026-10-14",
 "desc": "",
@@ -1816,6 +1880,17 @@
 "kp_votes": 23273,
 "name": "Супергёрл",
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4486362/f841881f-e121-45f6-a209-367684a13bbc/600x900"
+},
+"tt8864596": {
+"checked": "2026-10-21",
+"desc": "Как Оптимус Прайм и Мегатрон из союзников стали злейшими врагами? Эпичные приключения на Кибертроне",
+"imdb": 7.6,
+"imdb_votes": 63000,
+"kp": 7.716,
+"kp_id": 1229682,
+"kp_votes": 24722,
+"name": "Трансформеры: Начало",
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/4483445/fcfee1fa-940f-451f-944a-32d2f29f95ae/600x900"
 },
 "tt9288030": {
 "checked": "2026-10-14",
@@ -2018,10 +2093,10 @@
 "y": "2020"
 }
 },
-"tg_offset": 278704795,
+"tg_offset": 278704797,
 "usage": {
-"calls": 15,
-"cost": 0.0082425,
+"calls": 16,
+"cost": 0.0088852,
 "month": "2026-10"
 }
 }
