@@ -1,6 +1,7 @@
 {
 "announced": {
 "movie:969681": "2026-10-14",
+"season:105248:2": "2026-10-23",
 "season:12786:20": "2026-10-14",
 "season:1413:13": "2026-10-14",
 "season:1416:23": "2026-10-16",
@@ -381,6 +382,15 @@
 "t": "Трансформеры: Начало",
 "y": "2024"
 },
+"-5333529396:96": {
+"d": "2026-10-23",
+"g": "мультфильм, боевик и приключения, нф и фэнтези",
+"k": "сериал",
+"key": "season:105248:2",
+"o": "Cyberpunk: Edgerunners",
+"t": "Киберпанк: Бегущие по краю",
+"y": "2022"
+},
 "291627066:35": {
 "g": "драма, детектив, нф и фэнтези",
 "k": "сериал",
@@ -408,9 +418,9 @@
 },
 "kp_day": {
 "date": "2026-10-23",
-"n": 0
+"n": 70
 },
-"last_digest": "2026-10-16",
+"last_digest": "2026-10-23",
 "members": {
 "291627066": {
 "d": "2026-10-14",
@@ -430,15 +440,15 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4303601/2fc554db-e5d1-475d-a5a3-4029b111b401/600x900"
 },
 "tt0098844": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "В системе уголовного судопроизводства обвинение представляют две независимые, равные по значению инстанции - полиция расследующая преступления и прокурор, представляющий дело в суде.",
 "imdb": 7.8,
 "imdb_votes": 51000,
-"kp": 7.136,
+"kp": 7.137,
 "kp_id": 184294,
-"kp_votes": 5726,
+"kp_votes": 5755,
 "name": "Закон и порядок",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10703959/90f544c8-d192-41b1-8d51-ea49c2aa9a03/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10703959/90f544c8-d192-41b1-8d51-ea49c2aa9a03/600x900"
 },
 "tt0121955": {
 "checked": "2026-10-14",
@@ -539,6 +549,17 @@
 "name": "Фантастическая четвёрка: Первые шаги",
 "poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10853012/1d22c10e-ecc7-45a7-ab2e-c0c06cc6a7b7/600x900"
 },
+"tt10794054": {
+"checked": "2026-10-23",
+"desc": "Каторжанин берётся за опасную миссию ради встречи с дочерью. Итан Хоук в олдскульной приключенческой драме",
+"imdb": 6.9,
+"imdb_votes": 3514,
+"kp": 6.505,
+"kp_id": 1330494,
+"kp_votes": 942,
+"name": "До последнего грамма",
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10893610/e52f94a5-35fa-45ea-888c-5a76b2413d76/600x900"
+},
 "tt1091909": {
 "checked": "2026-10-14",
 "desc": "Детектив и доктор раскрывают убийства в Торонто XIX века. Атмосферный сериал о зарождении криминалистики",
@@ -595,15 +616,26 @@
 "poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/4486362/a4a9fe57-d119-4d84-b326-2e9b70087bc8/600x900"
 },
 "tt11540908": {
-"checked": "2026-10-14",
-"desc": "Школьница, которую травят одноклассники, обретает опасный дар. Хоррор по дебютному роману Стивена Кинга",
-"imdb": null,
-"imdb_votes": 0,
-"kp": 7.175,
+"checked": "2026-10-23",
+"desc": "Травля пробуждает в школьнице опасный дар. Новая экранизация Стивена Кинга от режиссёра «Жизни Чака»",
+"imdb": 7.9,
+"imdb_votes": 38850,
+"kp": 7.374,
 "kp_id": 1343910,
-"kp_votes": 1007,
+"kp_votes": 14373,
 "name": "Кэрри",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4486362/c91798bb-76c0-4fea-84ff-4dfd7bfe8114/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/4486362/c91798bb-76c0-4fea-84ff-4dfd7bfe8114/600x900"
+},
+"tt11743610": {
+"checked": "2026-10-23",
+"desc": "Во время выполнения секретной миссии отряд спецназа попадает в засаду. Единственный выживший в той бойне командир группы Джеймс Рис вернулся домой и похоронил своих боевых товарищей. Вскоре он начинает подозревать, что засада была частью заговора теневых структур, а ему и его близким грозит смертельная опасность.",
+"imdb": 7.9,
+"imdb_votes": 129500,
+"kp": 7.361,
+"kp_id": 4396199,
+"kp_votes": 22625,
+"name": "Список смертников",
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10853012/888e1ad6-1236-496e-bb56-11efca1b7b20/600x900"
 },
 "tt12042730": {
 "checked": "2026-10-16",
@@ -617,7 +649,7 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10703959/ce97c5a2-eb29-4f42-b229-ca69cb05b2ae/600x900"
 },
 "tt12446086": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Спустя 3 года после поражения в масштабной битве против злодея Эрик Рид возвращается в родной город, в котором его считают виновником разрушений и многочисленных смертей. Потеряв кристалл, который позволял ему становиться Белым Драконом, Эрик собирает новую команду, чтобы вернуть себе силы.",
 "imdb": null,
 "imdb_votes": 0,
@@ -625,7 +657,18 @@
 "kp_id": 1389749,
 "kp_votes": 1,
 "name": "Легенда о Белом Драконе",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10812607/d38a4a7a-b002-494a-9668-4b70b820095b/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10812607/d38a4a7a-b002-494a-9668-4b70b820095b/600x900"
+},
+"tt12590266": {
+"checked": "2026-10-23",
+"desc": "Будущее, мегаполис Найт-Сити. Люди одержимы высокими технологиями и разного рода имплантами. Мать Дэвида Мартинеса еле сводит концы с концами, но пытается сделать всё возможное, чтобы сын учился в элитной академии и получил хорошее образование. Когда, попав в уличную перестрелку и автоаварию, женщина из-за плохой страховки умирает в больнице, Дэвид ставит себе экспериментальный имплантат, дающий своему обладателю повышенные боевые характеристики, и становится наёмником.",
+"imdb": 8.3,
+"imdb_votes": 123000,
+"kp": 7.943,
+"kp_id": 2000102,
+"kp_votes": 78465,
+"name": "Киберпанк: Бегущие по краю",
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10953618/e1ab31db-51df-499e-b950-bb4b7be6bf08/600x900"
 },
 "tt13210838": {
 "checked": "2026-10-14",
@@ -650,15 +693,15 @@
 "poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/4486454/55c68444-3f39-42bd-bbc6-c40c543d2185/600x900"
 },
 "tt13875494": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Колтер Шоу путешествует по стране на своем старом фургоне, чтобы помочь полиции и частным лицам раскрывать преступления и находить пропавших без вести людей, пока его последнее дело не меняет все.",
 "imdb": 7.2,
 "imdb_votes": 31253,
-"kp": 6.794,
+"kp": 6.803,
 "kp_id": 5139215,
-"kp_votes": 6748,
+"kp_votes": 6860,
 "name": "Следопыт",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10853012/b47c7799-e151-44bc-882b-263c943f96eb/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10853012/b47c7799-e151-44bc-882b-263c943f96eb/600x900"
 },
 "tt14107334": {
 "checked": "2026-10-16",
@@ -738,15 +781,15 @@
 "poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10893610/2f1f13db-084b-4663-a35a-3790243e1add/600x900"
 },
 "tt1756855": {
-"checked": "2026-10-14",
-"desc": "Он хочет засудить фирму, по вине которой не может догнать зайца. Анимационные приключения в реальном мире",
+"checked": "2026-10-23",
+"desc": "Адвокат-неудачник помогает дикому клиенту засудить корпорацию. Триумфальное возвращение мультяшек Looney Tunes",
 "imdb": 7.4,
 "imdb_votes": 40249,
-"kp": 7.151,
+"kp": 7.102,
 "kp_id": 572477,
-"kp_votes": 8091,
+"kp_votes": 9400,
 "name": "Хитрый койот",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10809116/6a46ddea-0fbb-47f1-ae91-fc28d9011f39/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10809116/6a46ddea-0fbb-47f1-ae91-fc28d9011f39/600x900"
 },
 "tt1757678": {
 "checked": "2026-10-16",
@@ -815,15 +858,15 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/9784475/9d8f64fc-dc63-43c5-9279-b6fb527426e2/600x900"
 },
 "tt22526100": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "После спонтанного поцелуя Олив и Адам — двое учёных — оказываются в фиктивных отношениях, проверяя на практике свои теории — как о любви, так и друг о друге.",
 "imdb": 6.9,
 "imdb_votes": 19685,
-"kp": 7.296,
+"kp": 7.248,
 "kp_id": 8496236,
-"kp_votes": 9535,
+"kp_votes": 11012,
 "name": "Гипотеза любви",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10893610/b23602b7-b76b-4114-a3e5-fbac5a352449/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10893610/b23602b7-b76b-4114-a3e5-fbac5a352449/600x900"
 },
 "tt2261391": {
 "checked": "2026-10-14",
@@ -837,26 +880,26 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/1900788/f6ab360e-a248-419d-8562-968165699f3b/600x900"
 },
 "tt23112594": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Андроид — в поисках человечности. Актуальная сай-фай-драма Marvel с Полом Беттани ",
 "imdb": null,
 "imdb_votes": 0,
-"kp": null,
+"kp": 7.243,
 "kp_id": 5158783,
-"kp_votes": 0,
+"kp_votes": 1745,
 "name": "Квест Вижна",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10671298/a654b70b-1811-4d34-bbc7-773603fa9b1c/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10671298/a654b70b-1811-4d34-bbc7-773603fa9b1c/600x900"
 },
 "tt23148340": {
-"checked": "2026-10-16",
+"checked": "2026-10-23",
 "desc": "Она мстит вожатым за гибель сына — Джейсона Вурхиза. Приквел культовой «Пятницы, 13-е»",
-"imdb": null,
-"imdb_votes": 0,
-"kp": null,
+"imdb": 7.7,
+"imdb_votes": 5407,
+"kp": 7.372,
 "kp_id": 5244917,
-"kp_votes": 0,
+"kp_votes": 12595,
 "name": "Хрустальное озеро",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10900341/71f99f95-96c3-4dce-8936-2da94558569e/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10900341/71f99f95-96c3-4dce-8936-2da94558569e/600x900"
 },
 "tt26443616": {
 "checked": "2026-10-16",
@@ -914,13 +957,13 @@
 "poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10812607/d0e07fd2-fa09-486c-98c2-245b6fa5b267/600x900"
 },
 "tt27419466": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Моана откликается на зов океана. Впервые в жизни она отправляется за риф своего острова Мотунуи вместе с прославленным полубогом Мауи. Их ждёт незабываемое путешествие, которое должно вернуть процветание её народу.",
 "imdb": 5.8,
 "imdb_votes": 13302,
-"kp": 6.607,
+"kp": 6.604,
 "kp_id": 5301021,
-"kp_votes": 25193,
+"kp_votes": 25324,
 "name": "Моана",
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10900341/2c03e4fe-370a-47c6-9ad1-b0b64d08cbbe/600x900"
 },
@@ -947,15 +990,15 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10703959/3b92aae5-13b0-4c6a-a256-97e03772d291/600x900"
 },
 "tt28498219": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "",
 "imdb": null,
 "imdb_votes": 0,
-"kp": null,
+"kp": 5.916,
 "kp_id": 6601550,
-"kp_votes": 0,
+"kp_votes": 1877,
 "name": "Matchbox. Фильм",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10671298/aace66aa-fe9f-40bc-aba0-dfb2d49c5256/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10671298/aace66aa-fe9f-40bc-aba0-dfb2d49c5256/600x900"
 },
 "tt2861424": {
 "checked": "2026-10-14",
@@ -991,15 +1034,15 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10703959/bc0ded8c-36f1-4fbf-8f3d-0cdf79a9dbb0/600x900"
 },
 "tt29356163": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Щенячий патруль попадает в шторм и терпит крушение на неизведанном тропическом острове, населённом динозаврами. Здесь они встречают Рекса — щенка, который давно оказался на острове и стал экспертом по динозаврам. Однако их враг, мэр Хамдингер, безрассудно начинает добычу ресурсов, что приводит к пробуждению спящего вулкана. Теперь Щенячьему патрулю предстоит спасти остров и его обитателей от надвигающейся катастрофы.",
 "imdb": 6.2,
 "imdb_votes": 1286,
-"kp": 7.329,
+"kp": 7.069,
 "kp_id": 5610120,
-"kp_votes": 1918,
+"kp_votes": 1996,
 "name": "Щенячий патруль: Динофильм",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10835644/a500d389-60d2-44b8-9779-8ef04a48192f/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10835644/a500d389-60d2-44b8-9779-8ef04a48192f/600x900"
 },
 "tt29552248": {
 "checked": "2026-10-19",
@@ -1057,15 +1100,15 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4483445/c27882f6-5c3b-4eea-9db5-a83da4c36f77/600x900"
 },
 "tt31049299": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Марк Кимболл, независимый кандидат в мэры Лос-Анджелеса, вынужден вложить все сбережения в предвыборную кампанию, чтобы не проиграть выборы. Вскоре неизвестный похищает его сына-подростка Денни и требует выкуп в размере 7 миллионов долларов за его возвращение. Не имея на руках таких средств, Марк с супругой вынуждены обратиться к специалистке по решению подобных проблем Дейл Бертон, стоимость услуг которой составляет 20% от суммы выкупа. Позже выясняется, что преступник ошибся и похитил ребёнка-латиноамериканца, одетого в тот же карнавальный костюм, но он всё равно продолжает требовать выкуп, угрожая убить мальчика в случае отказа.",
 "imdb": 5.7,
 "imdb_votes": 13249,
-"kp": 5.787,
+"kp": 5.807,
 "kp_id": 5455343,
-"kp_votes": 2557,
+"kp_votes": 5499,
 "name": "Животные",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10703859/a72e27c2-a746-4996-898a-bdfd0ab23c16/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10703859/a72e27c2-a746-4996-898a-bdfd0ab23c16/600x900"
 },
 "tt31170389": {
 "checked": "2026-10-14",
@@ -1079,15 +1122,15 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4486362/b4a01028-1718-40eb-b24b-652c4b3cf2bf/600x900"
 },
 "tt31192372": {
-"checked": "2026-10-14",
-"desc": "Новые героини, новая высота, новая западня и тот же парализующий страх. Билеты — на Кинопоиске!",
+"checked": "2026-10-23",
+"desc": "Две подруги отправляются на опасную горную тропу в Таиланде. Сиквел триллера о тяге к экстриму",
 "imdb": 5.6,
 "imdb_votes": 482,
-"kp": 5.951,
+"kp": 5.876,
 "kp_id": 5610132,
-"kp_votes": 22414,
+"kp_votes": 28336,
 "name": "Вышка 2",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4486454/b5e50522-757e-47de-8ca9-5a903175429d/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/4486454/b5e50522-757e-47de-8ca9-5a903175429d/600x900"
 },
 "tt31227572": {
 "checked": "2026-10-16",
@@ -1101,15 +1144,15 @@
 "poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10893610/860868ef-851a-45ed-875a-86e3744ba694/600x900"
 },
 "tt31349844": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Ценный и срочный груз оказывается мишенью для бандитов. Комедийный боевик с Аланом Ричсоном",
 "imdb": 6.7,
 "imdb_votes": 3305,
-"kp": 6.449,
+"kp": 6.398,
 "kp_id": 7178187,
-"kp_votes": 6997,
+"kp_votes": 8178,
 "name": "Курьер",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10853012/b87f3676-f3b1-4e1d-a4f6-6a6146e65302/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10853012/b87f3676-f3b1-4e1d-a4f6-6a6146e65302/600x900"
 },
 "tt31510819": {
 "checked": "2026-10-14",
@@ -1156,26 +1199,26 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10953618/fe1960f7-3f83-4248-a97b-812cd55fa0f0/600x900"
 },
 "tt32338669": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Телохранитель мстит головорезам за убийство хозяина. Джейсон Стэйтем в новом боевике режиссёра «Крушения»",
 "imdb": 5.7,
 "imdb_votes": 9434,
-"kp": 6.041,
+"kp": 6.126,
 "kp_id": 5582050,
-"kp_votes": 36088,
+"kp_votes": 41647,
 "name": "Мятеж",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10671298/033abb4b-844e-4a92-9e0b-a3a403739a7a/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10671298/033abb4b-844e-4a92-9e0b-a3a403739a7a/600x900"
 },
 "tt32393988": {
-"checked": "2026-10-14",
-"desc": "В детстве Джемма стала свидетелем жуткой смерти матери, которая уже долгое время была не в себе. 20 лет спустя она работает стоматологом, живёт в том же доме и воспитывает дочь-младшеклассницу. Внезапно женщину начинают мучать реалистичные страшные сны и преследовать троица жутких стариков. Когда один из них заявляется к ней на приём, Джемма снова проваливается в липкий кошмар, из которого её спасает Элиза Рейнер — оказывается, Джемма может быть курьером между нашим миром и небытием. И этим хочет воспользоваться нечто зловещее.",
+"checked": "2026-10-23",
+"desc": "Джемма пытается защитить дочь от демонов. Новая часть хоррор-франшизы, посвящённая материнству",
 "imdb": 6.1,
 "imdb_votes": 18355,
-"kp": 6.225,
+"kp": 6.175,
 "kp_id": 7104903,
-"kp_votes": 13705,
+"kp_votes": 16403,
 "name": "Астрал 6: Они уже здесь",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10900341/445eee30-bf74-4dcf-886b-36510a683acf/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10900341/445eee30-bf74-4dcf-886b-36510a683acf/600x900"
 },
 "tt32500958": {
 "checked": "2026-10-14",
@@ -1200,15 +1243,15 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10893610/592da618-3a89-4aa8-a7c0-5ff6faea01c5/600x900"
 },
 "tt32588798": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Кайли, старшая дочь Салли Оуэнс, начинает раскрывать семейные тайны и развивает свои собственные тёмные способности. Семья оказывается втянута в многовековую борьбу за то, чтобы наконец снять проклятие, которое преследует их род на протяжении поколений.\nЖенщины из семьи Оуэнс — Салли, Джиллиан, тёти Фрэнсис и Бриджит — должны вновь объединиться и отправиться в Великобританию, чтобы противостоять источнику своей магии и спасти следующее поколение своей семьи.",
 "imdb": 6.4,
 "imdb_votes": 4093,
-"kp": 6.407,
+"kp": 6.158,
 "kp_id": 6426123,
-"kp_votes": 2431,
+"kp_votes": 4104,
 "name": "Практическая магия 2",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10703859/ab96266f-884d-40cd-b7f3-c62f54820d0f/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10703859/ab96266f-884d-40cd-b7f3-c62f54820d0f/600x900"
 },
 "tt32820897": {
 "checked": "2026-10-19",
@@ -1233,15 +1276,15 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10853012/d612e3dc-dc6e-42ce-8722-e48127072bbc/600x900"
 },
 "tt33214716": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Киллер бросает спокойную жизнь ради спасения юной незнакомки. Экшен-триллер с Жаном Рено и Деннисом Куэйдом",
 "imdb": null,
 "imdb_votes": 0,
-"kp": 5.193,
+"kp": 5.272,
 "kp_id": 11440665,
-"kp_votes": 851,
+"kp_votes": 1195,
 "name": "Флорист",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10809116/f211d0cb-eaae-42bc-bfe7-62b5cdc80f49/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10809116/f211d0cb-eaae-42bc-bfe7-62b5cdc80f49/600x900"
 },
 "tt33270224": {
 "checked": "2026-10-14",
@@ -1277,26 +1320,37 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4486454/5c94937f-394f-43ac-a643-90fc8fe55a25/600x900"
 },
 "tt33539520": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Частная сыщица Фрэнсис Нили — бывший мастер-сержант специального подразделения военной полиции и верная напарница Джека Ричера. Нили узнаёт о загадочной смерти своего друга Томми, чью гибель полиция считает несчастным случаем или самоубийством. Не доверяя официальной версии, она начинает собственное расследование вместе с детективом чикагской полиции Хадсоном Райли.",
 "imdb": 7.8,
 "imdb_votes": 6624,
-"kp": 7.098,
+"kp": 7.087,
 "kp_id": 9168581,
-"kp_votes": 2118,
+"kp_votes": 2432,
 "name": "Нили",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4486454/e8b23aa9-af30-4c24-9424-cf2ea0c6affe/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/4486454/e8b23aa9-af30-4c24-9424-cf2ea0c6affe/600x900"
+},
+"tt34379051": {
+"checked": "2026-10-23",
+"desc": "1966 год, штат Миссисипи. Молодой чернокожий агент ФБР Уэйн Страйдер объединяется с Грегом Скарпой, бывшим киллером мафии, чтобы расследовать убийства лидеров движения борцов за гражданские права.",
+"imdb": 6.7,
+"imdb_votes": 3783,
+"kp": 5.932,
+"kp_id": 6955070,
+"kp_votes": 876,
+"name": "Любой ценой",
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10809116/e51bdc91-cd27-44d7-8484-0cd2de7d3374/600x900"
 },
 "tt34384900": {
-"checked": "2026-10-16",
+"checked": "2026-10-23",
 "desc": "",
 "imdb": null,
 "imdb_votes": 0,
-"kp": null,
+"kp": 6.779,
 "kp_id": 8683406,
-"kp_votes": 23,
+"kp_votes": 1051,
 "name": "Любовь твоей жизни",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10703859/f918e32f-d71c-46d5-8a9c-5379d5d59cf1/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10703859/f918e32f-d71c-46d5-8a9c-5379d5d59cf1/600x900"
 },
 "tt34564059": {
 "checked": "2026-10-14",
@@ -1354,26 +1408,26 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10835644/b8860bc1-e01d-4c2d-9de4-9f20ee90a953/600x900"
 },
 "tt35854736": {
-"checked": "2026-10-14",
-"desc": "После разрушительной катастрофы привычный мир расколот, а остатки человечества укрываются в семи последних оплотах цивилизации. Юная маг земли Пави неожиданно узнает, что именно она стала новым Аватаром после Корры. Но времена изменились: теперь Аватара считают не спасителем, а виновником гибели прежнего мира, поэтому на девушку начинают охоту и люди, и духи. Единственный, на кого Пави сейчас может положиться — наставник Джей, и именно он поможет новоиспеченному Аватару понять природу ее сил.",
+"checked": "2026-10-23",
+"desc": "В постапокалиптическом мире Пави нужно спасти семь оставшихся городов. Новая история из культовой вселенной",
 "imdb": null,
 "imdb_votes": 0,
-"kp": 6.566,
+"kp": 6.933,
 "kp_id": 7267380,
-"kp_votes": 442,
+"kp_votes": 1377,
 "name": "Аватар: Семь убежищ",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10900341/66c2f815-2bee-416b-a33b-d21c12e8f26f/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10900341/66c2f815-2bee-416b-a33b-d21c12e8f26f/600x900"
 },
 "tt35934755": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Рыбацкому городку угрожает чудовище из недр океана. Зловещий триллер с Джошем Хартнеттом и Чарли Хитоном ",
 "imdb": 6.4,
 "imdb_votes": 200,
-"kp": null,
+"kp": 6.269,
 "kp_id": 14029326,
-"kp_votes": 460,
+"kp_votes": 7267,
 "name": "Глубина",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10809116/ba698adf-2fcb-453c-afe4-59f5d5aafefa/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10809116/ba698adf-2fcb-453c-afe4-59f5d5aafefa/600x900"
 },
 "tt35949226": {
 "checked": "2026-10-14",
@@ -1387,26 +1441,26 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4716873/b650bbcc-089f-4e9b-8919-b32c03ae65f6/600x900"
 },
 "tt36064406": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "",
 "imdb": null,
 "imdb_votes": 0,
-"kp": null,
+"kp": 6.22,
 "kp_id": 9151812,
-"kp_votes": 301,
+"kp_votes": 759,
 "name": "Академия ведьм",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10768063/dd2cf37e-8ab1-44c0-9618-a36ec1ecc398/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10768063/dd2cf37e-8ab1-44c0-9618-a36ec1ecc398/600x900"
 },
 "tt36073210": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "",
 "imdb": 5.4,
 "imdb_votes": 3628,
-"kp": 6.349,
+"kp": 6.313,
 "kp_id": 14058379,
-"kp_votes": 1801,
+"kp_votes": 2386,
 "name": "Слоновая кость",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4716873/985ecee0-f05e-46b8-a5ed-642497efa33f/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/4716873/985ecee0-f05e-46b8-a5ed-642497efa33f/600x900"
 },
 "tt36150957": {
 "checked": "2026-10-14",
@@ -1420,26 +1474,26 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10853012/fafffd2d-f97f-4604-8cd2-591101dc2897/600x900"
 },
 "tt36210894": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Ванда Бэлл и Леон Симмонс пытаются начать жизнь заново в Лос-Анджелесе 1990-х. На фоне последствий эпидемии крэк-кокаина зарождается новая индустрия — рэп Западного побережья. Ванда верит в его способность изменить американскую культуру и собирает команду талантливых музыкантов, а Леон стремится окончательно порвать с криминальным прошлым и искупить свои грехи, оказывая бесплатную юридическую помощь жителям Южного Централа. Их пути снова пересекаются, когда Ванда начинает стажировку у бывшего наркоторговца, ставшего владельцем музыкального лейбла.",
 "imdb": null,
 "imdb_votes": 0,
 "kp": null,
 "kp_id": 7918850,
-"kp_votes": 121,
+"kp_votes": 136,
 "name": "Дроп: Снегопад. Сага",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10812607/dbc4d3b1-774d-46e1-9e6c-e24cde994875/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10812607/dbc4d3b1-774d-46e1-9e6c-e24cde994875/600x900"
 },
 "tt36347588": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Конец XVIII века, столичный район Пукчхон. Жена министра леди Чо вынуждена искать мужу молодую наложницу, так как у пары нет детей. Хозяйка табачной лавки хитростью пристраивает на это место свою младшую дочь, и леди Чо, опасаясь, что супруг бесплоден, отправляет письмо кузену Чо Вону — своей первой любви, а ныне известному ловеласу. Они заключают соглашение: если он соблазнит молодую вдову, после смерти мужа поклявшуюся хранить целомудрие, мадам вознаградит его близостью, а в случае неудачи Чо Вону придётся зачать министру наследника с молодой наложницей.",
 "imdb": 6.0,
-"imdb_votes": 1024,
-"kp": 6.962,
+"imdb_votes": 1415,
+"kp": 6.983,
 "kp_id": 6712336,
-"kp_votes": 1107,
+"kp_votes": 1367,
 "name": "Скандал",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10900341/55246a1b-7e9f-4a07-9c66-c3d74f8c7e8d/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10900341/55246a1b-7e9f-4a07-9c66-c3d74f8c7e8d/600x900"
 },
 "tt36429458": {
 "checked": "2026-10-14",
@@ -1464,15 +1518,15 @@
 "poster": ""
 },
 "tt36849871": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Кейси оставляет ранчо и уходит служить в рядах маршалов США. Спин-офф популярного сериала о семействе Даттон",
 "imdb": 6.1,
 "imdb_votes": 18687,
-"kp": 6.372,
+"kp": 6.38,
 "kp_id": 8251367,
-"kp_votes": 6648,
+"kp_votes": 6817,
 "name": "Йеллоустоун: Маршалы",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10812607/fc37c8d7-84f9-48f8-8247-3d84d821c2e6/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10812607/fc37c8d7-84f9-48f8-8247-3d84d821c2e6/600x900"
 },
 "tt36980377": {
 "checked": "2026-10-14",
@@ -1486,15 +1540,15 @@
 "poster": ""
 },
 "tt36983905": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Бедняк становится предводителем крестьянского мятежа XIV века. Эндрю Гарфилд в экшен-драме Пола Гринграсса",
 "imdb": 6.2,
 "imdb_votes": 4027,
-"kp": 6.325,
+"kp": 6.248,
 "kp_id": 8005532,
-"kp_votes": 3854,
+"kp_votes": 4979,
 "name": "Восставший",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10703859/a053f606-18fd-4a83-bbba-21063d9ed4ea/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10703859/a053f606-18fd-4a83-bbba-21063d9ed4ea/600x900"
 },
 "tt36984433": {
 "checked": "2026-10-14",
@@ -1508,26 +1562,26 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10809116/1e62c178-3ace-4d6f-b47b-09a1775db160/600x900"
 },
 "tt37070354": {
-"checked": "2026-10-16",
-"desc": "",
+"checked": "2026-10-23",
+"desc": "Филип празднует свой 45-й день рождения на роскошной ферме на севере Швеции. Когда внезапно разражается шторм, он и его друзья оказываются отрезанными от внешнего мира. По мере того как паника нарастает, начинают вскрываться тайны, обнажая старые обиды.",
 "imdb": null,
 "imdb_votes": 0,
 "kp": null,
 "kp_id": 14209291,
-"kp_votes": 0,
+"kp_votes": 26,
 "name": "Шторм",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10671298/35ea074d-21a5-4a81-bb9c-69c2d8a39fee/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10671298/35ea074d-21a5-4a81-bb9c-69c2d8a39fee/600x900"
 },
 "tt37281055": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Милый единорог убивает непослушных участников детского телешоу. Инди-хоррор с Кристин Милиоти ",
 "imdb": 7.0,
 "imdb_votes": 9971,
-"kp": 6.401,
+"kp": 6.457,
 "kp_id": 8549783,
-"kp_votes": 13449,
+"kp_votes": 17087,
 "name": "Бадди",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4486454/5a09b01f-9f4f-47a0-8af4-fdc899a245fd/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/4486454/5a09b01f-9f4f-47a0-8af4-fdc899a245fd/600x900"
 },
 "tt37287335": {
 "checked": "2026-10-14",
@@ -1585,26 +1639,26 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10809116/a13b8834-d9d0-4680-91ad-3ddccc66897c/600x900"
 },
 "tt37971717": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Вымотанный боями на базе ЦРУ в Польше и в американском аэропорту, лейтенант спецназа Джейк Харрис получает новое задание. Он должен помешать бывшему боевому товарищу Эллиоту Картеру, который утратил веру в страну, и его отряду вывести из строя систему противоракетной обороны США.",
 "imdb": 5.1,
 "imdb_votes": 294,
-"kp": 5.493,
+"kp": 5.438,
 "kp_id": 9932880,
-"kp_votes": 399,
+"kp_votes": 469,
 "name": "Один последний выстрел",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/4716873/1768d33f-dafe-4c2b-bd7e-af42a7d713a6/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/4716873/1768d33f-dafe-4c2b-bd7e-af42a7d713a6/600x900"
 },
 "tt37972251": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Истории громких судебных дел.",
 "imdb": null,
 "imdb_votes": 0,
 "kp": null,
 "kp_id": 10646403,
-"kp_votes": 216,
+"kp_votes": 699,
 "name": "Война",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10703959/03f59338-70f3-4eb2-9a92-448f91b2af8d/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10703959/03f59338-70f3-4eb2-9a92-448f91b2af8d/600x900"
 },
 "tt38218082": {
 "checked": "2026-10-14",
@@ -1629,13 +1683,13 @@
 "poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10953618/f5e8c226-3a63-4c6e-b849-ecb76800a5ac/600x900"
 },
 "tt38953026": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Джо взял на себя преступление любимой девушки и провёл за решёткой 4 года. Выйдя из тюрьмы, он узнаёт, что его сыну срочно нужна операция, на которую у него нет денег. Случайная ночная драка сводит его с У Даганом — стариком, владеющим уникальными техниками кунг‑фу. Впереди — турнир по смешанным единоборствам с призом в сто тысяч долларов, жестокие тренировки до крови и бойцы, которые не знают жалости.",
 "imdb": 5.9,
 "imdb_votes": 87,
 "kp": null,
 "kp_id": 14153015,
-"kp_votes": 15,
+"kp_votes": 16,
 "name": "Кулак льва",
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10893610/b28b4d4a-13fc-4d2b-8cf8-d739d6a473ba/600x900"
 },
@@ -1651,15 +1705,15 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10703959/82d9ebea-632b-4a3a-8751-43f2af1e0d56/600x900"
 },
 "tt39328047": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Талантливая женщина-хирург начинает работать в новой больнице.",
-"imdb": null,
-"imdb_votes": 0,
+"imdb": 7.9,
+"imdb_votes": 462,
 "kp": null,
 "kp_id": 10170786,
-"kp_votes": 0,
+"kp_votes": 1072,
 "name": "Доктор Икс",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10812607/c9fc4d9f-56df-446b-a0bc-41cc79bf9e57/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10812607/c9fc4d9f-56df-446b-a0bc-41cc79bf9e57/600x900"
 },
 "tt39390497": {
 "checked": "2026-10-16",
@@ -1682,6 +1736,17 @@
 "kp_votes": 12,
 "name": "Я тебя знаю",
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10768063/6d93c758-980c-4236-9657-dc6d7ac10968/600x900"
+},
+"tt40385667": {
+"checked": "2026-10-23",
+"desc": "Джим и его мать плывут за кладом капитана Флинта. Новая экранизация знаменитого романа Стивенсона",
+"imdb": null,
+"imdb_votes": 0,
+"kp": 7.361,
+"kp_id": 11467031,
+"kp_votes": 3506,
+"name": "Остров сокровищ",
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10809116/4c166ec7-7044-41c7-803a-1cdd171b8cfe/600x900"
 },
 "tt40407840": {
 "checked": "2026-10-14",
@@ -1772,15 +1837,26 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10592371/b0b477af-2042-43e8-9ada-15d372c0b84d/600x900"
 },
 "tt47657999": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "",
 "imdb": 6.3,
 "imdb_votes": 1301,
 "kp": null,
 "kp_id": 14001407,
-"kp_votes": 3,
+"kp_votes": 4,
 "name": "बबीता सिंह रिपोर्टिंग",
 "poster": "https://image.tmdb.org/t/p/w500/8HoxgJXbDWadzBFYGazuRH7xTqK.jpg"
+},
+"tt4859164": {
+"checked": "2026-10-23",
+"desc": "Добро пожаловать в наш шумный дом! Дом, где живут Лори, Лени, Луна, Луан, Линн, Люси, Лана, Лола, Лиза, Лили и Линкольн Лауды! \nПоскольку Линкольн — единственный брат пяти младших и пяти старших сестёр в доме с одной ванной, жизнь его может слететь с катушек в любой момент. Непредсказуемые перестановки мебели и взрывные научные эксперименты, поиски идеального места для долгой семейной поездки... нет для Линкольна в мире нерешаемых проблем, как и слишком тесных спален! И всё же он не променяет эту жизнь ни на какую другую. \nА знаете, какой секрет помогает Линкольну выжить в этом шумном доме? У него всегда есть план. И с небольшой помощью своего лучшего друга Клайда Линкольн может справиться с любым препятствием из тех что создают ему сёстры.",
+"imdb": 6.9,
+"imdb_votes": 10000,
+"kp": 7.072,
+"kp_id": 999627,
+"kp_votes": 17577,
+"name": "Мой шумный дом",
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/1900788/2b9b4d49-6586-40b2-98bb-285b58ed9c73/600x900"
 },
 "tt5875444": {
 "checked": "2026-10-14",
@@ -1860,7 +1936,7 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10809116/4e407b54-3d40-42ea-b7a8-41b0d7d8bff9/600x900"
 },
 "tt7491982": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Проект сфокусируется на работе нью-йоркского отделения Федерального бюро расследований.",
 "imdb": 7.1,
 "imdb_votes": 28000,
@@ -1904,15 +1980,15 @@
 "poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10671298/61b570f1-3210-4c8a-b328-c717724648a5/600x900"
 },
 "tt9601292": {
-"checked": "2026-10-14",
+"checked": "2026-10-23",
 "desc": "Группа бывших сотрудников ЦРУ, преследуемых последствиями провальной миссии в Афганистане, отправляется в самое сердце Тегерана, чтобы провести рискованную спасательную операцию, которая становится их последним шансом на искупление.",
 "imdb": 4.7,
 "imdb_votes": 1598,
-"kp": 5.521,
+"kp": 5.477,
 "kp_id": 5146946,
-"kp_votes": 418,
+"kp_votes": 566,
 "name": "Операция «Возмездие»",
-"poster": "https://avatars.mds.yandex.net/get-kinopoisk-image/10893610/7eeeecb8-5fd6-4d1c-b44c-89092f71110e/600x900"
+"poster": "https://cdnrrviubnyuntopbez5.svc.cdn.yandex.net/get-kinopoisk-image/10893610/51e46655-a2e4-44c1-9a0c-717cf23eb222/600x900"
 }
 },
 "taste": {
